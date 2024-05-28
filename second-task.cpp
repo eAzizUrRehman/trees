@@ -1,5 +1,7 @@
-// THIRD TASK
-// Question: Implement a function to search for a value in the BST and return a boolean indicating whether the value exists in the tree.
+// Submitted by: AZIZ UR REHMAN - 866-FOC/BSIT/F22(A)
+
+// SECOND TASK
+// Question: Add error handling in the insertInBST function to avoid duplicate values.
 
 #include <iostream>
 using namespace std;
@@ -20,6 +22,13 @@ TreeNode *insertInBST(TreeNode *root, int value)
     if (root == nullptr)
     {
         return new TreeNode(value);
+    }
+
+    // IF CURRENT NODE VALUE IS SAME AS INCOMING VALUE, RETURN CURRENT NODE INSTEAD OF INSERTING A NEW NODE
+    // THUS PREVENTING ENTRY OF DUPLICATE VALUES IN THE TREE
+    if (root->value == value)
+    {
+        return root;
     }
 
     if (value < root->value)
@@ -72,28 +81,6 @@ void postOrderTraversal(TreeNode *root)
     cout << root->value << " ";
 }
 
-bool searchValueInBST(TreeNode *root, int value)
-{
-    if (root == nullptr)
-    {
-        return false;
-    }
-
-    if (value == root->value)
-    {
-        return true;
-    }
-
-    if (value < root->value)
-    {
-        return searchValueInBST(root->left, value);
-    }
-    else
-    {
-        return searchValueInBST(root->right, value);
-    }
-}
-
 int main()
 {
 
@@ -104,13 +91,13 @@ int main()
 
     // first level of the tree
     insertInBST(root, 30);
-    insertInBST(root, 70);
+    insertInBST(root, 70); // FIRST TIME ENTERING 70 - ALLOWED
 
     // second level of the tree
     insertInBST(root, 20);
-    insertInBST(root, 40);
+    insertInBST(root, 70); // SECOND TIME ENTERING 70 - NOT ALLOWED
     insertInBST(root, 60);
-    insertInBST(root, 80);
+    insertInBST(root, 70); // THIRD TIME ENTERING 70 - NOT ALLOWED
 
     cout << "\nIn-order Traversal: ";
     inOrderTraversal(root);
@@ -122,19 +109,7 @@ int main()
 
     cout << "\nPost-order Traversal: ";
     postOrderTraversal(root);
-    cout << endl;
-
-    cout << "\nIs 50 available? : " << (searchValueInBST(root, 50) ? "True" : "False") << endl; // TRUE
-
-    cout << "\nIs 70 available? : " << (searchValueInBST(root, 70) ? "True" : "False") << endl; // TRUE
-
-    cout << "\nIs 60 available? : " << (searchValueInBST(root, 60) ? "True" : "False") << endl; // TRUE
-
-    cout << "\nIs 0 available? : " << (searchValueInBST(root, 0) ? "True" : "False") << endl; // FALSE
-
-    cout << "\nIs -500 available? : " << (searchValueInBST(root, -500) ? "True" : "False") << endl; // FALSE
-
-    cout << "\nIs 500 available? : " << (searchValueInBST(root, 500) ? "True" : "False") << endl // FALSE
+    cout << endl
          << endl;
 
     return 0;

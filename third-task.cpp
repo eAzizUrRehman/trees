@@ -1,34 +1,32 @@
+// Submitted by: AZIZ UR REHMAN - 866-FOC/BSIT/F22(A)
+
+// THIRD TASK
+// Question: Implement a function to search for a value in the BST and return a boolean indicating whether the value exists in the tree.
+
 #include <iostream>
 using namespace std;
 
-// Definition of a TreeNode
 class TreeNode
 {
 public:
-    int value;       // Value of the node
-    TreeNode *left;  // Pointer to the left child
-    TreeNode *right; // Pointer to the right child
+    int value;
+    TreeNode *left;
+    TreeNode *right;
 
-    // Constructor to initialize the node with a value
     TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
 };
 
-// RECURSIVE FUNCTION ---- insertInBST()
-// Function to insert a new value into a BST
 TreeNode *insertInBST(TreeNode *root, int value)
 {
 
-    // BASE CONDITION
     if (root == nullptr)
     {
-        return new TreeNode(value); // calling constructor
+        return new TreeNode(value);
     }
 
-    // 30<50
     if (value < root->value)
     {
         root->left = insertInBST(root->left, value);
-        // ROOT->LEFT behave as root for above call
     }
     else if (value > root->value)
     {
@@ -37,40 +35,35 @@ TreeNode *insertInBST(TreeNode *root, int value)
     return root;
 }
 
-// In-order traversal of a binary tree
 void inOrderTraversal(TreeNode *root)
 {
 
-    // BASE CONDITION
     if (root == nullptr)
         return;
 
     inOrderTraversal(root->left);
 
-    cout << root->value << " "; // root
+    cout << root->value << " ";
 
     inOrderTraversal(root->right);
 }
 
-// \nPre-order Traversal of a binary tree
 void preOrderTraversal(TreeNode *root)
 {
-    // BASE CONDITION
+
     if (root == nullptr)
         return;
 
     cout << root->value << " ";
 
     preOrderTraversal(root->left);
-    
+
     preOrderTraversal(root->right);
 }
 
-// \nPost-order Traversal of a binary tree
 void postOrderTraversal(TreeNode *root)
 {
 
-    // BASE CONDITION
     if (root == nullptr)
         return;
 
@@ -81,13 +74,35 @@ void postOrderTraversal(TreeNode *root)
     cout << root->value << " ";
 }
 
+bool searchValueInBST(TreeNode *root, int value)
+{
+    if (root == nullptr)
+    {
+        return false;
+    }
+
+    if (value == root->value)
+    {
+        return true;
+    }
+
+    if (value < root->value)
+    {
+        return searchValueInBST(root->left, value);
+    }
+    else
+    {
+        return searchValueInBST(root->right, value);
+    }
+}
+
 int main()
 {
 
     TreeNode *root = nullptr;
 
     // zero level of the tree
-    root = insertInBST(root, 50); // root now storing Node with value 50
+    root = insertInBST(root, 50);
 
     // first level of the tree
     insertInBST(root, 30);
@@ -109,7 +124,20 @@ int main()
 
     cout << "\nPost-order Traversal: ";
     postOrderTraversal(root);
-    cout << endl << endl;
+    cout << endl;
+
+    cout << "\nIs 50 available? : " << (searchValueInBST(root, 50) ? "True" : "False") << endl; // TRUE
+
+    cout << "\nIs 70 available? : " << (searchValueInBST(root, 70) ? "True" : "False") << endl; // TRUE
+
+    cout << "\nIs 60 available? : " << (searchValueInBST(root, 60) ? "True" : "False") << endl; // TRUE
+
+    cout << "\nIs 0 available? : " << (searchValueInBST(root, 0) ? "True" : "False") << endl; // FALSE
+
+    cout << "\nIs -500 available? : " << (searchValueInBST(root, -500) ? "True" : "False") << endl; // FALSE
+
+    cout << "\nIs 500 available? : " << (searchValueInBST(root, 500) ? "True" : "False") << endl // FALSE
+         << endl;
 
     return 0;
 }
